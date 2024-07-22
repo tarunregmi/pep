@@ -1,0 +1,12 @@
+{
+  "name": "pep",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Use prisma with express.js and postgresql...",
+  "scripts": {},
+  "keywords": [
+    "Prisma",
+    "Express",
+    "PostgreSQL"
+  ]
+}
