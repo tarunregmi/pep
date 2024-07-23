@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "type": "module",
   "description": "Use prisma with express.js and postgresql...",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc",
+    "migrate": "prisma migrate dev --name init",
+    "start:dev": "nodemon src/index.ts"
+  },
   "keywords": [
     "Prisma",
     "Express",
