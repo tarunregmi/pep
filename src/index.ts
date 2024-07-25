@@ -1,22 +1,33 @@
-import { PrismaClient } from '@prisma/client';
+import _knex from 'knex';
+import knexConfig from './knexfile.js';
 import users from './data/users.js';
 
-const prisma = new PrismaClient();
+const knex = _knex(knexConfig);
 
-async function main() {
-  console.log('Start Inserting Data:');
-  console.time('insert_users');
-  await prisma.user.createMany({ data: users });
-  console.timeEnd('insert_users');
-  console.log('End Inserting Data:');
+async function insertUsers(batchSize = 1000) {
+  try {
+    console.log('Start Inserting Data:');
+    console.time('insert_users');
+
+    await knex.transaction(async (trx) => {
+      const chunks = [];
+
+      for (let i = 0; i < users.length; i += batchSize) {
+        chunks.push(users.slice(i, i + batchSize));
+      }
+
+      for (const chunk of chunks) {
+        await knex.batchInsert('user', chunk).transacting(trx);
+      }
+    });
+
+    console.timeEnd('insert_users');
+    console.log('End Inserting Data:');
+  } catch (error) {
+    console.error('Error inserting users:', error);
+  } finally {
+    await knex.destroy();
+  }
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.log(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+insertUsers(2000);
