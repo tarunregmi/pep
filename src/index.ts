@@ -11,6 +11,13 @@ const insertUsers = async () => {
 
     await User.bulkCreate(users, { validate: true });
 
+    // // batch input
+    // const batchSize = 2000;
+    // for (let i = 0; i < users.length; i += batchSize) {
+    //   const batch = users.slice(i, i + batchSize);
+    //   await User.bulkCreate(batch, { validate: true });
+    // }
+
     console.timeEnd('insert_users');
     console.log('End Inserting Data:');
   } catch (error) {
