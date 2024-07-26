@@ -12,6 +12,6 @@
     "NODE_ENV": "development"
   },
   "execMap": {
-    "ts": "node --no-warnings --loader ts-node/esm --env-file .env"
+    "ts": "node --no-warnings --loader ts-node/esm"
   }
 }
